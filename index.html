@@ -942,7 +942,6 @@ if(document.fonts){document.fonts.load('900 128px Archivo').then(buildCut,()=>{}
     root.classList.remove('i-hero');
     await drop;if(skipped)return;
     /* then the headline cut-out opens with a soft pump */
-    play(ph,[{transform:'scale(1.035)'},{transform:'scale(1)'}],{duration:1000,easing:'cubic-bezier(.2,.8,.2,1)'});
     if(url){const a=play(ph,[{webkitMaskPosition:'0 0,-90px 0',maskPosition:'0 0,-90px 0'},{webkitMaskPosition:`0 0,${W}px 0`,maskPosition:`0 0,${W}px 0`}],{duration:900,easing:'cubic-bezier(.4,0,.2,1)'});a.then(()=>{if(!skipped)buildCut()})}
     await wait(1050);
 hero.style.willChange='';finish();
