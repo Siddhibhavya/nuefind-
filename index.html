@@ -404,7 +404,7 @@ footer{background:var(--stone);padding-block:32px 40px;font-size:14px;position:r
 #intro{position:fixed;inset:0;z-index:300;background:var(--white);display:none;place-items:center;cursor:pointer}
 html.i-lock #intro{display:grid}
 html.i-lock,html.i-lock body{overflow:hidden}
-#ilogo{width:min(64vw,760px);height:auto;overflow:visible}
+#ilogo{width:min(64vw,760px);height:auto;overflow:visible;will-change:transform}
 #intro .lt{opacity:0;transform-box:fill-box;transform-origin:50% 100%}
 #skip{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
 html.i-hero .hero{transform:translateY(-105%)}
@@ -921,15 +921,11 @@ if(document.fonts){document.fonts.load('900 128px Archivo').then(buildCut,()=>{}
     setTimeout(()=>{const g=$('#ilogo g');g&&g.removeAttribute('mask')},1800);
     await wait(1450);
     letters.forEach((l,i)=>play(l,[{opacity:0,transform:'translateY(28px) scale(.92)'},{opacity:1,transform:'none'}],{duration:260,delay:i*95,easing:'cubic-bezier(.2,.9,.3,1.2)'}));
-    await wait(7*95+330);
+    await wait(7*95+300);
     if(skipped)return;
-    play(svg,[{transform:'scale(1)'},{transform:'scale(1.08)',offset:.4},{transform:'scale(1)'}],{duration:320});
-    await wait(300);if(skipped)return;
     const r0=svg.getBoundingClientRect(),t=navLogo.getBoundingClientRect(),s=t.width/r0.width,dx=t.left+t.width/2-(r0.left+r0.width/2),dy=t.top+t.height/2-(r0.top+r0.height/2);
-    const fly=play(svg,[{transform:'none'},{transform:`translate(${dx}px,${dy}px) scale(${s})`}],{duration:1100,easing:'cubic-bezier(.6,0,.2,1)'});
+    const fly=play(svg,[{transform:'none'},{transform:`translate(${dx}px,${dy}px) scale(${s})`}],{duration:1000,easing:'cubic-bezier(.6,0,.2,1)'});
     play(ov,[{backgroundColor:'rgba(255,254,254,1)'},{backgroundColor:'rgba(255,254,254,0)'}],{duration:700});
-    play(hero,[{transform:'translateY(-105%)'},{transform:'translateY(1.6%)',offset:.72},{transform:'none'}],{duration:1000,easing:'cubic-bezier(.45,0,.55,1)'});
-    root.classList.remove('i-hero');
     play(wm,[{opacity:0},{opacity:.3}],{duration:900});root.classList.remove('i-wm');
     /* the bar's card fades in around the spot where the logo is heading, and starts stretching before the logo lands */
     await wait(620);if(skipped)return;
@@ -939,10 +935,17 @@ if(document.fonts){document.fonts.load('900 128px Archivo').then(buildCut,()=>{}
     root.classList.remove('i-navsmall');
     await fly;if(skipped)return;
     /* hand-over: the drawn logo fades into the bar's logo; the headline then scales in */
-    play(svg,[{opacity:1},{opacity:0}],{duration:260});root.classList.remove('i-logo');
-    if(url){const a=play(ph,[{webkitMaskPosition:'0 0,-90px 0',maskPosition:'0 0,-90px 0'},{webkitMaskPosition:`0 0,${W}px 0`,maskPosition:`0 0,${W}px 0`}],{duration:1200,easing:'cubic-bezier(.55,0,.25,1)'});a.then(()=>{if(!skipped)buildCut()})}
-    await wait(1350);
-finish();
+    play(svg,[{opacity:1},{opacity:0}],{duration:200});root.classList.remove('i-logo');
+    /* page drops to fill the screen */
+    hero.style.willChange='transform';
+    const drop=play(hero,[{transform:'translateY(-105%)'},{transform:'none'}],{duration:950,easing:'cubic-bezier(.22,.7,.2,1)'});
+    root.classList.remove('i-hero');
+    await drop;if(skipped)return;
+    /* then the headline cut-out opens with a soft pump */
+    play(ph,[{transform:'scale(1.035)'},{transform:'scale(1)'}],{duration:1000,easing:'cubic-bezier(.2,.8,.2,1)'});
+    if(url){const a=play(ph,[{webkitMaskPosition:'0 0,-90px 0',maskPosition:'0 0,-90px 0'},{webkitMaskPosition:`0 0,${W}px 0`,maskPosition:`0 0,${W}px 0`}],{duration:900,easing:'cubic-bezier(.4,0,.2,1)'});a.then(()=>{if(!skipped)buildCut()})}
+    await wait(1050);
+hero.style.willChange='';finish();
   }
   run().catch(finish);
 })();
