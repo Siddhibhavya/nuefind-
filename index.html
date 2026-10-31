@@ -34,7 +34,7 @@ h1,h2,h3,p{margin:0}
 .h2{font-size:clamp(24px,2.1vw,32px);font-weight:600;letter-spacing:-.01em;line-height:1.2;text-wrap:balance}
 
 /* fixed background logo, stays put while the page scrolls */
-.wm{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4;background:var(--logo) center/min(84vw,1288px) auto no-repeat}
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.3;background:var(--logo) center/min(84vw,1288px) auto no-repeat}
 #bar{position:fixed;top:0;left:0;right:0;height:3px;background:var(--ink);transform:scaleX(0);transform-origin:left;z-index:120;opacity:0}
 #bar.run{opacity:1;transform:scaleX(.82);transition:transform .7s var(--ease)}
 #bar.done{opacity:0;transform:scaleX(1);transition:transform .2s,opacity .4s .2s}
@@ -930,7 +930,7 @@ if(document.fonts){document.fonts.load('900 128px Archivo').then(buildCut,()=>{}
     play(ov,[{backgroundColor:'rgba(255,254,254,1)'},{backgroundColor:'rgba(255,254,254,0)'}],{duration:700});
     play(hero,[{transform:'translateY(-105%)'},{transform:'translateY(1.6%)',offset:.72},{transform:'none'}],{duration:1000,easing:'cubic-bezier(.45,0,.55,1)'});
     root.classList.remove('i-hero');
-    play(wm,[{opacity:0},{opacity:.1}],{duration:900});root.classList.remove('i-wm');
+    play(wm,[{opacity:0},{opacity:.3}],{duration:900});root.classList.remove('i-wm');
     /* the bar's card fades in around the spot where the logo is heading, and starts stretching before the logo lands */
     await wait(620);if(skipped)return;
     root.classList.remove('i-navhide');
